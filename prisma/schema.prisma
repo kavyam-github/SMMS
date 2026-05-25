@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Staff {
+  StaffID      Int              @id @default(autoincrement())
+  StaffName    String
+  MobileNo     String?
+  EmailAddress String           @unique
+  Password     String
+  Description  String?          @db.Text
+  Role         String           @default("MENTOR") // Added for RBAC: ADMIN or MENTOR
+  Created      DateTime         @default(now())
+  Modified     DateTime         @updatedAt
+  Mentors      StudentMentor[]
+
+  @@map("staff")
+}
+
+model Student {
+  StudentID    Int              @id @default(autoincrement())
+  StudentName  String
+  EnrollmentNo String           @unique
+  Password     String
+  MobileNo     String?
+  EmailAddress String           @unique
+  Description  String?          @db.Text
+  Created      DateTime         @default(now())
+  Modified     DateTime         @updatedAt
+  Mentorships  StudentMentor[]
+
+  @@map("student")
+}
+
+model StudentMentor {
+  StudentMentorID Int                @id @default(autoincrement())
+  StudentID       Int
+  StaffID         Int
+  FromDate        DateTime
+  ToDate          DateTime?
+  Description     String?            @db.Text
+  Created         DateTime           @default(now())
+  Modified        DateTime           @updatedAt
+  Student         Student            @relation(fields: [StudentID], references: [StudentID])
+  Staff           Staff              @relation(fields: [StaffID], references: [StaffID])
+  MentoringLogs   StudentMentoring[]
+
+  @@map("studentmentor")
+}
+
+model StudentMentoring {
+  StudentMentoringID     Int           @id @default(autoincrement())
+  StudentMentorID        Int
+  DateOfMentoring        DateTime
+  ScheduledMeetingDate   DateTime?
+  NextMentoringDate      DateTime?
+  IssuesDiscussed        String?       @db.Text
+  MentoringMeetingAgenda String?       @db.Text
+  AttendanceStatus       String
+  AbsentRemarks          String?       @db.Text
+  IsParentPresent        Boolean       @default(false)
+  ParentName             String?
+  ParentMobileNo         String?
+  StudentsOpinion        String?       @db.Text
+  ParentsOpinion         String?       @db.Text
+  StudentMentor          StudentMentor @relation(fields: [StudentMentorID], references: [StudentMentorID])
+
+  @@map("studentmentoring")
+}
