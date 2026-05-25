@@ -8,30 +8,30 @@ datasource db {
 }
 
 model Staff {
-  StaffID      Int              @id @default(autoincrement())
+  StaffID      Int             @id @default(autoincrement())
   StaffName    String
   MobileNo     String?
-  EmailAddress String           @unique
+  EmailAddress String          @unique
   Password     String
-  Description  String?          @db.Text
-  Role         String           @default("MENTOR") // Added for RBAC: ADMIN or MENTOR
-  Created      DateTime         @default(now())
-  Modified     DateTime         @updatedAt
+  Description  String?         @db.Text
+  Created      DateTime        @default(now())
+  Modified     DateTime        @updatedAt
+  Role         String          @default("MENTOR")
   Mentors      StudentMentor[]
 
   @@map("staff")
 }
 
 model Student {
-  StudentID    Int              @id @default(autoincrement())
+  StudentID    Int             @id @default(autoincrement())
   StudentName  String
-  EnrollmentNo String           @unique
+  EnrollmentNo String          @unique
   Password     String
   MobileNo     String?
-  EmailAddress String           @unique
-  Description  String?          @db.Text
-  Created      DateTime         @default(now())
-  Modified     DateTime         @updatedAt
+  EmailAddress String          @unique
+  Description  String?         @db.Text
+  Created      DateTime        @default(now())
+  Modified     DateTime        @updatedAt
   Mentorships  StudentMentor[]
 
   @@map("student")
@@ -46,10 +46,12 @@ model StudentMentor {
   Description     String?            @db.Text
   Created         DateTime           @default(now())
   Modified        DateTime           @updatedAt
-  Student         Student            @relation(fields: [StudentID], references: [StudentID])
   Staff           Staff              @relation(fields: [StaffID], references: [StaffID])
+  Student         Student            @relation(fields: [StudentID], references: [StudentID])
   MentoringLogs   StudentMentoring[]
 
+  @@index([StaffID], map: "studentmentor_StaffID_fkey")
+  @@index([StudentID], map: "studentmentor_StudentID_fkey")
   @@map("studentmentor")
 }
 
@@ -70,5 +72,6 @@ model StudentMentoring {
   ParentsOpinion         String?       @db.Text
   StudentMentor          StudentMentor @relation(fields: [StudentMentorID], references: [StudentMentorID])
 
+  @@index([StudentMentorID], map: "studentmentoring_StudentMentorID_fkey")
   @@map("studentmentoring")
 }

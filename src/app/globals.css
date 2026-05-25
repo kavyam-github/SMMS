@@ -159,3 +159,7 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}

@@ -114,7 +114,7 @@ export default function LandingPage() {
             >
               <div className="rounded-[3rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(249,115,22,0.3)] border-[10px] border-white bg-white group ring-4 ring-white">
                 <Image
-                  src="/smms_login_hero.png"
+                  src="/smms_hero_illustration.png"
                   alt="Mentoring Dashboard Illustration"
                   width={1000}
                   height={800}

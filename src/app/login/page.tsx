@@ -137,7 +137,7 @@ export default function LoginPage() {
                     >
                         <div className="rounded-[2.5rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(249,115,22,0.2)] border border-white bg-white group/img ring-4 ring-white">
                             <Image
-                                src="/smms_hero_illustration.png"
+                                src="/smms_login_hero.png"
                                 alt="Mentoring Illustration"
                                 width={800}
                                 height={600}
@@ -251,12 +251,6 @@ export default function LoginPage() {
                 </div>
             </div>
 
-            {/* Custom Styles for 3D Effect */}
-            <style jsx global>{`
-                .preserve-3d {
-                    transform-style: preserve-3d;
-                }
-            `}</style>
         </div>
     );
 }
